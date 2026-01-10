@@ -745,22 +745,28 @@ def main():
     print("2. Generation du fichier HTML...")
     html_content = generer_dashboard_html(data_json)
     
-    # Créer le dossier dashboard s'il n'existe pas
+    # Créer le dossier dashboard pour le JSON (optionnel)
     if not os.path.exists('dashboard'):
         os.makedirs('dashboard')
     
-    # Sauvegarder le HTML
-    html_file = 'dashboard/index.html'
+    # Sauvegarder le HTML à la racine (pour GitHub Pages)
+    html_file = 'index.html'
     with open(html_file, 'w', encoding='utf-8') as f:
         f.write(html_content)
     
-    # Sauvegarder le JSON pour référence
+    # Sauvegarder aussi dans dashboard pour organisation
+    html_file_dashboard = 'dashboard/index.html'
+    with open(html_file_dashboard, 'w', encoding='utf-8') as f:
+        f.write(html_content)
+    
+    # Sauvegarder le JSON pour référence (optionnel)
     json_file = 'dashboard/data.json'
     with open(json_file, 'w', encoding='utf-8') as f:
         json.dump(data_json, f, ensure_ascii=False, indent=2, default=str)
     
-    print(f"   [OK] Fichier HTML genere: {html_file}")
-    print(f"   [OK] Fichier JSON genere: {json_file}")
+    print(f"   [OK] Fichier HTML genere: {html_file} (racine - pour GitHub Pages)")
+    print(f"   [OK] Fichier HTML genere: {html_file_dashboard} (dossier dashboard)")
+    print(f"   [OK] Fichier JSON genere: {json_file} (optionnel)")
     print()
     
     print("=" * 70)
@@ -770,14 +776,20 @@ def main():
     print("Pour utiliser le dashboard:")
     print()
     print("Option 1: Ouvrir directement dans le navigateur")
-    print(f"   Double-cliquez sur: {html_file}")
+    print(f"   Double-cliquez sur: {html_file} (a la racine)")
     print()
     print("Option 2: Serveur local simple")
     print("   python -m http.server 8000")
-    print("   Puis allez sur: http://localhost:8000/dashboard")
+    print("   Puis allez sur: http://localhost:8000")
     print()
-    print("Option 3: Deployer sur GitHub Pages/Netlify")
-    print("   Uploader le dossier 'dashboard' sur votre hebergeur")
+    print("Option 3: Deployer sur GitHub Pages")
+    print("   1. Creer un depot GitHub")
+    print("   2. Uploader index.html (a la racine du depot)")
+    print("   3. Activer GitHub Pages dans Settings")
+    print("   4. URL: https://VOTRE_USERNAME.github.io/nom-depot/")
+    print()
+    print("Option 4: Deployer sur Netlify/Vercel")
+    print("   Uploader index.html ou le dossier complet")
 
 
 if __name__ == "__main__":
